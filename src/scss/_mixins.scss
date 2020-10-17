@@ -1,0 +1,41 @@
+@mixin button($color: green) {
+    height: 24px;
+    min-width: 24px;
+    padding: 5px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    color: rgba(0, 0, 0, .7);
+    background: transparent;
+    border: none;
+    border-radius: 2px;
+
+    & > i {
+        font-size: 18px;
+    }
+
+    &:focus {
+        outline: 0;
+        box-shadow: $outline-box-shadow;
+    }
+
+    &:active, &.active {
+        color: $color;
+    }
+
+    &:hover {
+        background: #eee;
+        cursor: pointer;
+    }
+}
+
+@mixin clear-list() {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+@mixin animate($time: 0.25s, $animation-type: ease-in-out) {
+    transition: all $animation-type $time;
+}
