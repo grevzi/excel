@@ -14,7 +14,8 @@
         "indent": "off",
         "eol-last": "off",
         "linebreak-style": ["error", "windows"],
-        "max-len": "off"
+        "max-len": "off",
+        "operator-linebreak": "off"
     },
     "extends": ["eslint:recommended", "google"]
 }

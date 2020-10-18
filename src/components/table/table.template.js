@@ -6,24 +6,24 @@ const CODES = {
 function createRow(index, data) {
     const resize = index ? '<div class="row-resize" data-resize="row"></div>' : ''
     return `
-        <div class="row" data-type="resizable">
+        <div class="row" data-type="resizable" data-row="${index ? index : ''}">
             <div class="row-info">${index ? index : ''}${resize}</div>
             <div class="row-data">${data}</div>
         </div>
     `
 }
 
-function createCol(value) {
+function createCol(value, index) {
     return `
-        <div class="column" data-type="resizable">
+        <div class="column" data-type="resizable" data-col="${index}">
             ${value}
             <div class="col-resize"  data-resize="col"></div>
         </div>
     `
 }
 
-function createCell(value) {
-    return `<div class="cell" contenteditable spellcheck="false">${value}</div>`
+function createCell(_, col) {
+    return `<div class="cell" contenteditable spellcheck="false" data-col="${col}"></div>`
 }
 
 function toChar(item, index) {
