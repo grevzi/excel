@@ -49,6 +49,17 @@ class Dom {
         return this.$el.dataset
     }
 
+    id(parse) {
+        if (parse) {
+            const id = this.id().split(':')
+            return {
+                row: +id[0],
+                col: +id[1]
+            }
+        }
+        return this.data.id
+    }
+
     getCoords() {
         return this.$el.getBoundingClientRect()
     }
