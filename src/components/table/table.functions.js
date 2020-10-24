@@ -21,3 +21,24 @@ export function matrix($current, $target) {
             return acc
         }, [])
 }
+
+export function nextSelector(key, {row, col}) {
+    switch (key) {
+        case 'Enter':
+        case 'ArrowDown':
+            row++
+            break
+        case 'Tab':
+        case 'ArrowRight':
+            col++
+            break
+        case 'ArrowUp':
+            row > 0 ? row-- : 0
+            break
+        case 'ArrowLeft':
+            col > 0 ? col-- : 0
+            break
+    }
+
+    return `[data-id="${row}:${col}"]`
+}
