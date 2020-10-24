@@ -5,7 +5,11 @@ export class ExcelComponent extends DOMListener {
         super($root, options.listeners);
 
         this.name = options.name || ''
+
+        this.prepare()
     }
+
+    prepare() {}
 
     init() {
         this.initDOMListeners()
