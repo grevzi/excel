@@ -13,6 +13,20 @@ class Dom {
         return this.$el.outerHTML.trim()
     }
 
+    text(text) {
+        if (typeof text === 'string') {
+            this.$el.textContent = text
+
+            return this
+        }
+
+        if (this.$el.tagName.toLocaleLowerCase() === 'input') {
+            return this.$el.value.trim()
+        }
+
+        return this.$el.textContent
+    }
+
     clear() {
         this.html('')
 
@@ -99,7 +113,23 @@ class Dom {
     focus() {
         this.$el.focus()
 
+        this.moveCursorToEnd()
+
         return this
+    }
+
+    moveCursorToEnd() {
+        const pos = this.$el.textContent.length
+        if (!pos) return false
+
+        const setpos = document.createRange();
+        const set = window.getSelection();
+
+        setpos.setStart(this.$el.childNodes[0], pos);
+        setpos.collapse(true);
+        set.removeAllRanges();
+        set.addRange(setpos);
+        this.$el.focus();
     }
 }
 
