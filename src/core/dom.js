@@ -13,6 +13,20 @@ class Dom {
         return this.$el.outerHTML.trim()
     }
 
+    text(text) {
+        if (typeof text === 'string') {
+            this.$el.textContent = text
+
+            return this
+        }
+
+        if (this.$el.tagName.toLocaleLowerCase() === 'input') {
+            return this.$el.value.trim()
+        }
+
+        return this.$el.textContent
+    }
+
     clear() {
         this.html('')
 
@@ -49,8 +63,23 @@ class Dom {
         return this.$el.dataset
     }
 
+    id(parse) {
+        if (parse) {
+            const id = this.id().split(':')
+            return {
+                row: +id[0],
+                col: +id[1]
+            }
+        }
+        return this.data.id
+    }
+
     getCoords() {
         return this.$el.getBoundingClientRect()
+    }
+
+    find(selector) {
+        return $(this.$el.querySelector(selector))
     }
 
     findAll(selector) {
@@ -61,6 +90,46 @@ class Dom {
         Object.keys(styles).forEach(key => this.$el.style[key] = styles[key])
 
         return this
+    }
+
+    addClass(className) {
+        this.$el.classList.add(className)
+
+        return this
+    }
+
+    removeClass(className) {
+        this.$el.classList.remove(className)
+
+        return this
+    }
+
+    hasClass(className) {
+        this.$el.classList.contains(className)
+
+        return this
+    }
+
+    focus() {
+        this.$el.focus()
+
+        this.moveCursorToEnd()
+
+        return this
+    }
+
+    moveCursorToEnd() {
+        const pos = this.$el.textContent.length
+        if (!pos) return false
+
+        const setpos = document.createRange();
+        const set = window.getSelection();
+
+        setpos.setStart(this.$el.childNodes[0], pos);
+        setpos.collapse(true);
+        set.removeAllRanges();
+        set.addRange(setpos);
+        this.$el.focus();
     }
 }
 

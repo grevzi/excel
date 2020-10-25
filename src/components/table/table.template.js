@@ -13,7 +13,7 @@ function createRow(index, data) {
     `
 }
 
-function createCol(value, index) {
+function toCol(value, index) {
     return `
         <div class="column" data-type="resizable" data-col="${index}">
             ${value}
@@ -22,8 +22,17 @@ function createCol(value, index) {
     `
 }
 
-function createCell(_, col) {
-    return `<div class="cell" contenteditable spellcheck="false" data-col="${col}"></div>`
+function toCell(row) {
+    return function(_, col) {
+        return `<div class="cell" 
+                contenteditable 
+                spellcheck="false" 
+                data-col="${col}" 
+                data-row="${row}"
+                data-id="${row}:${col}"
+                data-type="cell"
+                ></div>`
+    }
 }
 
 function toChar(item, index) {
@@ -34,19 +43,21 @@ export function createTable(rowsCount = 15) {
     const colsCount = CODES.Z - CODES.A + 1
     const cols = new Array(colsCount).fill('')
         .map(toChar)
-        .map(createCol)
+        .map(toCol)
         .join('')
 
     const rows = []
     rows.push(createRow(null, cols))
 
-    const cells = new Array(colsCount).fill('')
-        .map(createCell)
-        .join('')
+    for (let row = 0; row < rowsCount; row++) {
+        const cells = new Array(colsCount)
+            .fill('')
+            // .map(createCell.bind(null, row))
+            .map(toCell(row))
+            .join('')
 
-    new Array(rowsCount).fill('')
-        .map((item, index) => createRow(index + 1, cells))
-        .map(item => rows.push(item))
+        rows.push(createRow(row + 1, cells))
+    }
 
     return rows.join('')
 }
